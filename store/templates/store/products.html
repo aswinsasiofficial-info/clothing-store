@@ -1,0 +1,35 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+<h1 class="h3 mb-4">Products</h1>
+
+<!-- CATEGORY TILES -->
+<div class="category-tiles">
+  {% for c in categories %}
+    <a href="{% url 'store:products' %}?category={{ c.slug }}"
+       class="category-tile {% if request.GET.category == c.slug %}active{% endif %}">
+        <span>{{ c.name }}</span>
+    </a>
+  {% endfor %}
+</div>
+
+
+<!-- PRODUCT GRID -->
+<div class="row g-3">
+  {% for p in products %}
+    <div class="col-6 col-md-3">
+      <div class="card product-card">
+        {% if p.image_list %}
+          <img src="{{ p.image_list.0 }}" class="card-img-top" alt="{{ p.name }}">
+        {% endif %}
+        <div class="card-body">
+          <h6 class="card-title">{{ p.name }}</h6>
+          <p class="mb-0">₹{{ p.price }}</p>
+          <a href="{% url 'store:product_detail' p.slug %}" class="btn btn-dark w-100 btn-sm">BUY NOW</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

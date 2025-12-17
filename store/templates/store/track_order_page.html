@@ -1,0 +1,85 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 900px;">
+
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    <!-- ORDER HEADER -->
+    <div class="card shadow-sm p-4 mb-4">
+        <h4 class="mb-3">
+            Order Number: <strong>{{ order.order_number }}</strong>
+        </h4>
+
+        <p>Status:
+            <span class="badge bg-info text-dark">
+                {{ order.status|title }}
+            </span>
+        </p>
+
+        <p>
+            <strong>Estimated Delivery:</strong> {{ eta|date:"F j, Y" }}
+        </p>
+
+    </div>
+
+    <!-- ORDER PROGRESS TIMELINE -->
+    <div class="card shadow-sm p-4 mb-4">
+        <h4 class="mb-3">Order Progress</h4>
+
+        <div class="timeline">
+
+            <div
+                class="timeline-step {% if order.status in 'pending packed shipped out_for_delivery delivered' %}active{% endif %}">
+                <div class="dot"></div>
+                <p>Order Placed</p>
+            </div>
+
+            <div
+                class="timeline-step {% if order.status in 'packed shipped out_for_delivery delivered' %}active{% endif %}">
+                <div class="dot"></div>
+                <p>Packed</p>
+            </div>
+
+            <div class="timeline-step {% if order.status in 'shipped out_for_delivery delivered' %}active{% endif %}">
+                <div class="dot"></div>
+                <p>Shipped</p>
+            </div>
+
+            <div class="timeline-step {% if order.status in 'out_for_delivery delivered' %}active{% endif %}">
+                <div class="dot"></div>
+                <p>Out for Delivery</p>
+            </div>
+
+            <div class="timeline-step {% if order.status == 'delivered' %}active{% endif %}">
+                <div class="dot"></div>
+                <p>Delivered</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ORDER ITEMS -->
+    <div class="card shadow-sm p-4 mb-4">
+        <h4 class="mb-3">Items in this Order</h4>
+
+        {% for item in order_items %}
+        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+            <div>
+                <strong>{{ item.product_name }}</strong> (x{{ item.quantity }})
+            </div>
+            <span>₹{{ item.subtotal }}</span>
+        </div>
+        {% empty %}
+        <p>No items found.</p>
+        {% endfor %}
+
+        <hr>
+        <h5>Total Amount: ₹{{ order.total_amount }}</h5>
+    </div>
+
+</div>
+
+{% endblock %}

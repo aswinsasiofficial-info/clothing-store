@@ -1,0 +1,117 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+<div class="container mt-4 mb-5">
+
+    <h2 class="mb-4">Order Summary</h2>
+
+    <div class="card shadow-sm p-4">
+        <div class="row">
+
+            <!-- LEFT COLUMN : CUSTOMER DETAILS -->
+            <div class="col-md-6 border-end">
+                <h5 class="mb-3">Customer Details</h5>
+
+                <p><strong>Name:</strong> {{ billing.name }}</p>
+                <p><strong>Email:</strong> {{ billing.email }}</p>
+                <p><strong>Phone:</strong> {{ billing.phone }}</p>
+                <p><strong>Address:</strong> {{ billing.address }}</p>
+                <p>
+                    <strong>Payment Method:</strong>
+                    {{ method|upper }}
+                </p>
+            </div>
+
+            <!-- RIGHT COLUMN : PRODUCTS + PAYMENT -->
+            <div class="col-md-6 ps-md-4 mt-4 mt-md-0">
+
+                <h5 class="mb-3">Products</h5>
+
+                {% for it in items %}
+                <div class="d-flex justify-content-between mb-2">
+                    <span>{{ it.name }} × {{ it.quantity }}</span>
+                    <span>₹{{ it.price|floatformat:2 }}</span>
+                </div>
+                {% endfor %}
+
+                <hr>
+
+                <div class="d-flex justify-content-between mb-3">
+                    <strong>Total Amount</strong>
+                    <strong>₹{{ total }}</strong>
+                </div>
+
+                <!-- PAYMENT ACTIONS -->
+                {% if method == "cod" %}
+
+                <!-- COD -->
+                <form method="post" action="{% url 'store:complete_order' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-dark w-100">
+                        Confirm Order (Cash on Delivery)
+                    </button>
+                </form>
+
+                {% else %}
+
+                <!-- RAZORPAY -->
+                <button id="pay-btn" class="btn btn-dark w-100">
+                    Pay with Razorpay
+                </button>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if method != "cod" %}
+<!-- RAZORPAY SCRIPT -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+    document.getElementById("pay-btn").onclick = function () {
+
+        fetch("{% url 'store:razorpay_create' %}")
+            .then(response => response.json())
+            .then(data => {
+
+                var options = {
+                    key: "{{ razorpay_key }}",
+                    amount: data.amount,
+                    currency: "INR",
+                    name: "STYLE.IN",
+                    description: "Order Payment",
+                    order_id: data.order_id,
+
+                    handler: function (response) {
+    fetch("{% url 'store:razorpay_verify' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify(response)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "success") {
+            window.location.href = "/complete-order/";
+        } else {
+            alert("Payment verification failed.");
+        }
+    });
+}
+
+
+                };
+
+                var rzp = new Razorpay(options);
+                rzp.open();
+            });
+    };
+</script>
+{% endif %}
+
+{% endblock %}

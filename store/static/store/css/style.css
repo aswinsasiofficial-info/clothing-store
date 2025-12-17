@@ -1,0 +1,370 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+* {
+    font-family: "Inter Tight", sans-serif;
+}
+h2{
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+}
+/* NAVBAR LINK UNDERLINE EFFECT */
+.navbar-nav .nav-link {
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+    font-size: 18px;
+}
+
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #ffffff;
+    /* underline color */
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 100%;
+}
+
+
+.footer-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
+.footer-link {
+    color: #ffffff;
+    text-decoration: none;
+}
+.footer-link:hover {
+    color: #cccccc;
+}
+
+
+:root {
+    --brand: #0d6efd;
+}
+
+.hero {
+    min-height: 60vh;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-card img {
+    object-fit: cover;
+    height: 250px;
+    width: 100%;
+}
+
+.nav-badge {
+    position: relative;
+}
+
+.nav-badge .badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+}
+
+
+/* Smooth rounded edges + shadow on carousel images */
+.carousel-item img {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    object-fit: cover;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Slight zoom effect on slide transition */
+.carousel-item.active img {
+    transform: scale(1.02);
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* pushes text to right side */
+    padding: 15px 18px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fff;
+}
+
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* force content to left */
+    gap: 12px;
+    width: 100%;
+    padding: 15px 18px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+    transition: 0.25s ease;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.payment-option input[type="radio"] {
+    transform: scale(1.3);
+    accent-color: #007bff;
+    margin: -200px;
+    /* remove browser default offset */
+}
+
+.payment-option span {
+    flex-grow: 1;
+    /* keep text aligned */
+    text-align: left;
+    /* ensure text does not shift right */
+}
+
+.payment-option:hover {
+    border-color: #007bff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+
+
+
+.brand-font {
+    font-family: "Playfair Display", serif;
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: 1px;
+    font-size: 30px;
+}
+
+
+
+.hero-container {
+    position: relative;
+}
+
+.hero-btn-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.category-card:hover,
+.product-card:hover {
+    transform: translateY(-3px);
+    transition: 0.2s ease-in-out;
+}
+
+
+input {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 8px 10px;
+    border-radius: 6px;
+}
+
+/* Full width footer */
+.footer-full {
+    width: 115%;
+    margin-left: -110px;
+    margin-bottom: -34px;
+}
+
+
+
+
+/* DELIVERY BOX STYLING */
+.delivery-box {
+    background: #f8faff;
+}
+
+.delivery-box:hover {
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.delivery-list li {
+    margin-bottom: 12px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.delivery-list strong {
+    color: #333;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+    margin: 20px 0;
+    border-left: 3px solid #dcdcdc;
+}
+
+.timeline-step {
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.timeline-step:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-step .dot {
+    width: 14px;
+    height: 14px;
+    background: #bbb;
+    border-radius: 50%;
+    position: absolute;
+    left: -38px;
+    top: 3px;
+}
+
+.timeline-step.active .dot {
+    background: #007bff;
+}
+
+.timeline-step p {
+    margin: 0;
+    padding-left: 15px;
+    font-size: 15px;
+}
+
+.status-badge {
+    height: 50px;
+    padding: 14px 10px;
+    border-radius: 17px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-badge.pending {
+    background-color: #4b4b51;
+    ;
+    color: #fff;
+}
+
+.status-badge.packed {
+    background-color: #6c63ff;
+    color: white;
+}
+
+.status-badge.shipped {
+    background-color: #ff9800;
+    color: white;
+}
+
+.status-badge.out_for_delivery {
+    background-color: #007bff;
+    color: white;
+}
+
+.status-badge.delivered {
+    background-color: #4caf50;
+    color: white;
+}
+
+/* product catergory tiles*/
+.category-tiles {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+/* SMALL TILE */
+.category-tile {
+    width: 90px;
+    height: 30px;
+    border: 1px solid #e5e5e5;
+    border-radius: 17px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #000;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+
+/* Hover */
+.category-tile:hover {
+    border-color: #000;
+    background: #f8f8f8;
+}
+
+/* Active category */
+.category-tile.active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* HOME CATEGORY WRAPPER */
+.home-category-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+}
+
+/* CATEGORY TILE */
+.home-category-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 10px;
+    border-radius: 30px;
+    height: 45px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    color: #000;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+/* Hover */
+.home-category-chip:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    transform: translateY(-2px);
+}
+
+/* cancel order page */
+/* Cancel order options */
+.cancel-option {
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fff;
+}
+
+.cancel-option:hover {
+    border-color: #000;
+    background: #fafafa;
+}
+
+.cancel-option input {
+    cursor: pointer;
+}
+
+.cancel-option span {
+    font-size: 15px;
+}

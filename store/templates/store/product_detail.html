@@ -1,0 +1,37 @@
+{% extends "store/base.html" %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-6">
+    {% if product.image_list %}
+    <img src="{{ product.image_list.0 }}" class="img-fluid rounded" alt="{{ product.name }}">
+    {% endif %}
+  </div>
+  <div class="col-md-6">
+    <h1>{{ product.name }}</h1>
+    <p class="h4">₹{{ product.price }}</p>
+    <p>{{ product.description }}</p>
+    <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="add">
+      {% if product.size_list %}
+      <div class="mb-3">
+        <label class="form-label">Size</label>
+        <select name="size" class="form-select">
+          <option value="">Select</option>
+          {% for s in product.size_list %}
+          <option value="{{ s }}">{{ s }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {% endif %}
+      <div class="mb-3">
+        <label class="form-label">Quantity</label>
+        <input type="number" name="quantity" value="1" min="1" class="form-control" style="width:100px;">
+      </div>
+      <button class="btn btn-primary">Add to Cart</button>
+      <a href="{% url 'store:wishlist_add' product.id %}" class="btn btn-danger ms-2"> ❤️</a>
+
+    </form>
+  </div>
+</div>
+{% endblock %}

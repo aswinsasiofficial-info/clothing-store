@@ -1,0 +1,37 @@
+{% extends "store/base.html" %}
+{% block content %}
+<h1 class="h3 mb-4">Shopping Cart</h1>
+{% if items %}
+  <div class="list-group mb-4">
+    {% for it in items %}
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="mb-0">{{ it.name }}</h6>
+          <small>Size: {{ it.size }}</small>
+        </div>
+        <div class="text-end">
+          <p class="mb-1">₹{{ it.price }}</p>
+          <form action="{% url 'store:cart_update' %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="hidden" name="key" value="{{ it.id }}::{{ it.size }}">
+            <input type="hidden" name="action" value="remove">
+            <button class="btn btn-sm btn-outline-danger">Remove</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="card p-3">
+    <div class="d-flex justify-content-between">
+      <strong>Subtotal</strong>
+      <strong>₹{{ total }}</strong>
+    </div>
+    <a href="{% url 'store:checkout' %}" class="btn btn-success mt-3">Proceed to Checkout</a>
+  </div>
+{% else %}
+  <div class="text-center py-5">
+    <h3>Your cart is empty</h3>
+    <a href="{% url 'store:products' %}" class="btn btn-primary mt-3">Continue Shopping</a>
+  </div>
+{% endif %}
+{% endblock %}

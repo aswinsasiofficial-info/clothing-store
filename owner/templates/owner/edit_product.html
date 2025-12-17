@@ -1,0 +1,30 @@
+{% extends "owner/base_owner.html" %}
+{% block content %}
+<h3>Edit Product</h3>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input name="name" value="{{ product.name }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Price</label>
+        <input name="price" type="number" value="{{ product.price }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Stock</label>
+        <input name="stock" type="number" value="{{ product.stock }}" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>New Image (optional)</label>
+        <input type="file" name="image" class="form-control">
+    </div>
+
+    <button class="btn btn-success">Update</button>
+</form>
+{% endblock %}

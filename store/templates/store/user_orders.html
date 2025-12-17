@@ -1,0 +1,78 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2 class="mb-4">My Orders</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+        <div class="card mb-3 shadow-sm">
+
+            <div class="card-body d-flex justify-content-between align-items-start">
+
+                <!-- COLUMN 1 : PRODUCT NAMES -->
+                <div class="col-md-6">
+                    <div class="fw-semibold mb-2">Items:</div>
+
+                    {% for item in order.order_items.all %}
+                        <div class="text-muted">
+                            • {{ item.product_name }} × {{ item.quantity }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- COLUMN 2 : ORDER INFO -->
+                <div class="col-md-4">
+                    <div class="fw-bold mb-1">
+                        Order ID: {{ order.order_number }}
+                    </div>
+                    <div>Date: {{ order.created_at|date:"F d, Y" }}</div>
+                    <div>Time: {{ order.created_at|date:"h:i A" }}</div>
+
+                    <a href="{% url 'store:track_order_id' order.order_number %}"
+                       class="btn btn-link px-0 mt-2">
+                        Track Order →
+                    </a>
+                </div>
+
+                <!-- COLUMN 3 : STATUS + ACTION -->
+                <div class="col-md-2 text-end">
+
+                    {% if order.status == "pending" %}
+                        <span class="badge bg-warning text-dark mb-2">Pending</span>
+                    {% elif order.status == "packed" %}
+                        <span class="badge bg-info mb-2">Packed</span>
+                    {% elif order.status == "shipped" %}
+                        <span class="badge bg-primary mb-2">Shipped</span>
+                    {% elif order.status == "delivered" %}
+                        <span class="badge bg-success mb-2">Delivered</span>
+                    {% elif order.status == "cancelled" %}
+                        <span class="badge bg-danger mb-2">Cancelled</span>
+                    {% else %}
+                        <span class="badge bg-secondary mb-2">{{ order.status|title }}</span>
+                    {% endif %}
+
+                    <!-- ✅ CANCEL ORDER (ONLY WHEN ALLOWED) -->
+                    {% if order.status == "pending" or order.status == "packed" %}
+                        <form method="post"
+                              action="{% url 'store:cancel_order' order.order_number %}"
+                              onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                            {% csrf_token %}
+                            <a href="{% url 'store:cancel_order' order.order_number %}" 
+   class="btn btn-outline-danger btn-sm mt-2">
+   Cancel Order
+</a>
+
+                        </form>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>You have not placed any orders yet.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

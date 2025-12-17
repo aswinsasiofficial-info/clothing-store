@@ -1,0 +1,55 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+<div class="auth-wrapper">
+  <div class="auth-box">
+
+    <!-- LOGIN -->
+    <form method="post" action="{% url 'login' %}" class="auth-form active" id="loginForm">
+      {% csrf_token %}
+      <h3>Login</h3>
+
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+
+      <button type="submit">Login</button>
+
+      <p class="switch-text">
+        Don’t have an account?
+        <span onclick="showSignup()">Signup</span>
+      </p>
+    </form>
+
+    <!-- SIGNUP -->
+    <form method="post" action="{% url 'signup' %}" class="auth-form" id="signupForm">
+      {% csrf_token %}
+      <h3>Create Account</h3>
+
+      <input type="text" name="full_name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+
+      <button type="submit">Signup</button>
+
+      <p class="switch-text">
+        Already have an account?
+        <span onclick="showLogin()">Login</span>
+      </p>
+    </form>
+
+  </div>
+</div>
+
+<script>
+function showSignup() {
+  document.getElementById("loginForm").classList.remove("active");
+  document.getElementById("signupForm").classList.add("active");
+}
+
+function showLogin() {
+  document.getElementById("signupForm").classList.remove("active");
+  document.getElementById("loginForm").classList.add("active");
+}
+</script>
+
+{% endblock %}

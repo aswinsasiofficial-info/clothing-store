@@ -1,0 +1,60 @@
+{% extends "owner/base_owner.html" %}
+
+{% block content %}
+<h2 class="mb-4">Owner Dashboard</h2>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="p-4 rounded border bg-white shadow-sm">
+            <h6>Total Sales</h6>
+            <h3>₹{{ total_sales }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="p-4 rounded border bg-white shadow-sm">
+            <h6>Total Orders</h6>
+            <h3>{{ total_orders }}</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="p-4 rounded border bg-white shadow-sm">
+            <h6>Total Customers</h6>
+            <h3>{{ total_customers }}</h3>
+        </div>
+    </div>
+</div>
+
+<hr class="my-4">
+
+<h4>Recent Orders</h4>
+<table class="table table-bordered bg-white">
+    <thead>
+        <tr>
+            <th>Order#</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th width="140">Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for o in recent_orders %}
+        <tr>
+            <td>{{ o.order_number }}</td>
+            <td>{{ o.customer_name }}</td>
+            <td>₹{{ o.total_amount }}</td>
+            <td>{{ o.status }}</td>
+            <td>
+                <a href="{% url 'owner:update_order' o.id %}" class="btn btn-sm btn-primary">Update</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="5" class="text-center">No recent orders.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

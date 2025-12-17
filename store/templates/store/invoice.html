@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+    body {
+        font-family: DejaVu Sans, sans-serif;
+        background: #f5f5f5;
+        padding: 20px;
+        font-size: 14px;
+    }
+
+    .invoice-container {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .header h2 {
+        margin: 0;
+        font-size: 28px;
+        letter-spacing: 1px;
+    }
+
+    .order-info-box {
+        background: #f0f0f0;
+        padding: 12px;
+        border-left: 4px solid #007bff;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-weight: bold;
+        font-size: 16px;
+        margin-top: 25px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th {
+        background: #007bff;
+        color: #fff;
+        padding: 8px;
+        border: 1px solid #ddd;
+        letter-spacing: .5px;
+    }
+
+    td {
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .summary-box {
+        margin-top: 20px;
+        text-align: right;
+        padding: 15px;
+        border-radius: 6px;
+        background: #fafafa;
+        border: 1px solid #ccc;
+    }
+
+    .summary-box h3 {
+        margin: 5px 0;
+    }
+
+    .footer {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 13px;
+        color: #666;
+    }
+</style>
+</head>
+<body>
+
+<div class="invoice-container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h2>Style.in</h2>
+        <p>Your Fashion, Delivered Personally</p>
+    </div>
+
+    <!-- ORDER INFO TOP BOX -->
+    <div class="order-info-box">
+        <strong>Invoice:</strong> {{ order.order_number }}<br>
+        <strong>Date:</strong> {{ order.created_at|date:"F j, Y" }}<br>
+        <strong>Payment Method:</strong> {{ order.payment_method|title }}
+    </div>
+
+    <!-- BILLING INFO -->
+    <div class="section-title">Billing Information</div>
+    <p>
+        <strong>Name:</strong> {{ order.customer_name }}<br>
+        <strong>Email:</strong> {{ order.customer_email }}<br>
+        <strong>Phone:</strong> {{ order.customer_phone }}<br>
+        <strong>Address:</strong> {{ order.shipping_address }}
+    </p>
+
+    <!-- ORDER ITEMS TABLE -->
+    <div class="section-title">Order Details</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Size</th>
+                <th>Qty</th>
+                <th>Price (₹)</th>
+                <th>Subtotal (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.size }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product_price }}</td>
+                <td>{{ item.subtotal }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- SUMMARY BOX -->
+    <div class="summary-box">
+        <h3>Total: ₹{{ order.total_amount }}</h3>
+        <p>Thank you for your purchase!</p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        This is a system-generated invoice. For support, contact style.in customer care.
+    </div>
+
+</div>
+
+</body>
+</html>

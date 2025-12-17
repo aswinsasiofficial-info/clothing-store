@@ -1,0 +1,38 @@
+{% extends "owner/base_owner.html" %}
+
+{% block content %}
+<h3 class="mb-3">Products</h3>
+
+<a href="{% url 'owner:add_product' %}" class="btn btn-primary mb-3">+ Add Product</a>
+
+<table class="table table-bordered bg-white">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th width="180">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for p in products %}
+        <tr>
+            <td>{{ p.name }}</td>
+            <td>₹{{ p.price }}</td>
+            <td>{{ p.stock }}</td>
+            <td>
+                <a class="btn btn-warning btn-sm" href="{% url 'owner:edit_product' p.id %}">Edit</a>
+                <a class="btn btn-danger btn-sm"
+                   onclick="return confirm('Delete product?')"
+                   href="{% url 'owner:delete_product' p.id %}">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="4" class="text-center">No products found.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

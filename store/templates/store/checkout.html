@@ -1,0 +1,132 @@
+{% extends "store/base.html" %}
+{% block content %}
+
+<h1 class="h3 mb-4">Checkout</h1>
+
+<div class="row">
+
+    <!-- LEFT SIDE -->
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm rounded-4 mb-4">
+            <h4>Billing Details</h4>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.phone.label_tag }}
+                    {{ form.phone }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.address.label_tag }}
+                    {{ form.address }}
+                </div>
+
+                <!-- MOVE PAYMENT METHOD *INSIDE FORM* -->
+                <div class="card p-3 shadow-sm rounded-4 mb-3">
+                    <h5 class="fw-bold mb-3">Payment Method</h5>
+
+                    <label class="payment-option d-flex align-items-center gap-2 mb-2">
+                        <input type="radio" name="payment_method" value="cod" required>
+                        <span>Cash on Delivery</span>
+                    </label>
+
+                    <label class="payment-option d-flex align-items-center gap-2 mb-2">
+                        <input type="radio" name="payment_method" value="upi">
+                        <span>UPI</span>
+                    </label>
+
+                    <label class="payment-option d-flex align-items-center gap-2 mb-2">
+                        <input type="radio" name="payment_method" value="card">
+                        <span>Debit / Credit Card</span>
+                    </label>
+                </div>
+
+                <button class="btn btn-primary mt-3">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="col-md-6">
+
+        <div class="card p-4 shadow-sm rounded-4 mb-4">
+            <h4>Order Summary</h4>
+
+            {% for it in items %}
+            <div class="d-flex justify-content-between mb-2">
+                <div>{{ it.name }} x {{ it.quantity }}</div>
+                <div>₹{{ it.price|floatformat:2 }}</div>
+            </div>
+            {% endfor %}
+            <hr>
+
+            <div class="d-flex justify-content-between">
+                <strong>Total</strong>
+                <strong>₹{{ total }}</strong>
+            </div>
+        </div>
+
+        <!-- DELIVERY INFORMATION BOX -->
+        <div class="card p-4 shadow-sm rounded-4 mt-4 delivery-box">
+            <h5 class="fw-bold mb-3">🚚 Delivery Information</h5>
+
+            <ul class="list-unstyled delivery-list mb-3">
+                <li>
+                    📅 <strong>Estimated Delivery:</strong>
+                    <span class="text-muted">3–5 business days</span>
+                </li>
+
+                <li>
+                    🚚 <strong>Shipping Method:</strong>
+                    <span class="text-muted">Standard Delivery via Bluedart / Delhivery</span>
+                </li>
+
+                <li>
+                    🔄 <strong>Return Policy:</strong>
+                    <span class="text-muted">7-day easy returns & free pickup</span>
+                </li>
+
+                <li>
+                    💬 <strong>Customer Support:</strong>
+                    <span class="text-muted">support@style.in | +91 98765 43210</span>
+                </li>
+            </ul>
+
+            <div class="text-center mt-2">
+                <span class="badge bg-primary px-3 py-2 shadow-sm">
+                    Your order is protected under STYLE Safety Guarantee
+                </span>
+            </div>
+        </div>
+
+        <!-- ORDER SAFETY & GUARANTEE -->
+        <div class="card p-4 shadow-sm rounded-4 mt-4">
+            <h5 class="fw-bold mb-3">Why Shop With Us?</h5>
+
+            <ul class="list-unstyled safety-list">
+                <li>✔ 100% Secure Payment</li>
+                <li>✔ Cash on Delivery Available</li>
+                <li>✔ 7-Day Easy Return Policy</li>
+                <li>✔ Fast & Safe Delivery</li>
+                <li>✔ Premium Quality Clothing Guaranteed</li>
+            </ul>
+        </div>
+
+
+
+    </div>
+</div>
+
+{% endblock %}
