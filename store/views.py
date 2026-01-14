@@ -62,7 +62,7 @@ def generate_order_number():
 
 def home(request):
     categories = Category.objects.all()
-    featured = Product.objects.filter(featured=True)[:4]
+    featured = Product.objects.filter(featured=True)
     return render(request, 'store/home.html', {'categories': categories, 'featured': featured})
 
 def products(request):
@@ -94,7 +94,18 @@ def cart_view(request):
     cart = request.session.get('cart', {})
     items = list(cart.values())
     total = sum(Decimal(str(i['price'])) * i['quantity'] for i in items) if items else Decimal('0.00')
-    return render(request, 'store/cart.html', {'items': items, 'total': total})
+    
+    # Get featured products as suggestions
+    suggested = Product.objects.filter(featured=True).exclude(id__in=[item['id'] for item in items])[:6]
+    
+    # If not enough featured products, fill with random products
+    if suggested.count() < 6:
+        remaining = 6 - suggested.count()
+        cart_product_ids = [item['id'] for item in items] + list(suggested.values_list('id', flat=True))
+        additional = Product.objects.exclude(id__in=cart_product_ids).order_by('?')[:remaining]
+        suggested = list(suggested) + list(additional)
+    
+    return render(request, 'store/cart.html', {'items': items, 'total': total, 'suggested': suggested})
 
 def cart_update(request):
     # update quantities or remove

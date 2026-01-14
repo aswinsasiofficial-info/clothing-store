@@ -1,4 +1,5 @@
 {% extends "store/base.html" %}
+{% load socialaccount %}
 
 {% block content %}
 <div class="container mt-5">
@@ -9,31 +10,41 @@
                 <h3 class="text-center mb-4">Create an Account</h3>
 
                 <form method="post">
-  {% csrf_token %}
+                    {% csrf_token %}
 
-  <div class="mb-3">
-    {{ form.full_name.label_tag }}
-    {{ form.full_name }}
-  </div>
+                    <div class="mb-3">
+                        {{ form.full_name.label_tag }}
+                        {{ form.full_name }}
+                    </div>
 
-  <div class="mb-3">
-    {{ form.email.label_tag }}
-    {{ form.email }}
-  </div>
+                    <div class="mb-3">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                    </div>
 
-  <div class="mb-3">
-    {{ form.password1.label_tag }}
-    {{ form.password1 }}
-  </div>
+                    <div class="mb-3">
+                        {{ form.password1.label_tag }}
+                        {{ form.password1 }}
+                    </div>
 
-  <div class="mb-3">
-    {{ form.password2.label_tag }}
-    {{ form.password2 }}
-  </div>
+                    <div class="mb-3">
+                        {{ form.password2.label_tag }}
+                        {{ form.password2 }}
+                    </div>
 
-  <button class="btn btn-dark w-100">Create Account</button>
-</form>
+                    <button class="btn btn-dark w-100">Create Account</button>
+                </form>
 
+                <div class="my-3">
+                    <hr>
+                    <p class="text-center text-muted">Or signup with</p>
+                </div>
+
+                <!-- Google Signup Button -->
+                <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger w-100 mb-2">
+                    <img src="data:image/png;base64,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" alt="Google" style="width: 20px; margin-right: 8px;">
+                    Continue with Google
+                </a>
 
                 <p class="text-center mt-3">
                     Already have an account?

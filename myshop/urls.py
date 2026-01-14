@@ -7,22 +7,21 @@ urlpatterns = [
     path('', include(('store.urls', 'store'), namespace='store')),
 
     # AUTH ROUTES (REQUIRED)
-  path(
-    "login/",
-    auth_views.LoginView.as_view(
-        template_name="store/login.html",
-        redirect_authenticated_user=True
+    path(
+        "login/",
+        auth_views.LoginView.as_view(
+            template_name="store/login.html",
+            redirect_authenticated_user=True
+        ),
+        name="login"
     ),
-    name="login"
-),
-
 
     path('logout/', store_views.logout_view, name='logout'),
-
-
     path('signup/', store_views.signup_view, name='signup'),
+
+    # Google Auth Routes
+    path('accounts/', include('allauth.urls')),
 
     path('admin/', admin.site.urls),
     path("owner/", include("owner.urls", namespace="owner")),
-
 ]
