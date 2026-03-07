@@ -3,10 +3,13 @@
 * {
     font-family: "Inter Tight", sans-serif;
 }
-h2{
+
+
+h2 {
     font-family: "Playfair Display", serif;
     font-weight: 600;
 }
+
 /* NAVBAR LINK UNDERLINE EFFECT */
 .navbar-nav .nav-link {
     position: relative;
@@ -38,10 +41,12 @@ h2{
     margin: auto;
     padding: 0 20px;
 }
+
 .footer-link {
     color: #ffffff;
     text-decoration: none;
 }
+
 .footer-link:hover {
     color: #cccccc;
 }
@@ -53,7 +58,7 @@ h2{
 
 .hero {
     min-height: 60vh;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    background: linear-gradient(135deg, #af7979, #e9ecef);
     display: flex;
     align-items: center;
     justify-content: center;
