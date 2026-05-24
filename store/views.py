@@ -5,7 +5,7 @@ from .forms import CheckoutForm, CancelOrderForm,ProfileForm
 from django.utils import timezone
 from django.db import transaction
 import random
-import stringf
+import string
 import razorpay
 from django.conf import settings
 from django.http import JsonResponse
